@@ -1,6 +1,6 @@
 <?php
 
-namespace TorqueFormsStyler;
+namespace Divi_Form_Styler;
 
 
 class Module_Manager
