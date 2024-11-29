@@ -65,44 +65,37 @@ class Plugin
         // Upsell
         new Admin_Notices([
             'slug' => 'divi_form_styler_cyber_sale',
-            'title' => __('Cyber Sale - Divi Torque Pro just $89!', 'form-styler-for-divi'),
-            'message' => __('Hurry! Get lifetime access to Divi Torque Pro just $89!  Limited Time Offer!!', 'form-styler-for-divi'),
+            'title' => __('Only 50 Spots!', 'form-styler-for-divi'),
+            'message' => __('Hurry! Get Divi Torque Pro just $89!  Limited Time Offer!!', 'form-styler-for-divi'),
             'type' => 'success',
             'show_after' => 'hour',
             'screens' => ['plugins', 'dashboard'],
             'buttons' => [
                 [
                     'text' => __('Claim Your Cyber Sale Offer Now', 'form-styler-for-divi'),
-                    'url' => 'https://diviepic.com/sale/',
+                    'url' => 'https://diviepic.com/divi-torque-pro/',
                     'class' => 'button-primary',
                     'target' => '_blank'
                 ]
             ]
         ]);
 
-        new Admin_Notices([
-            'slug' => 'divi_form_styler_ask_review',
-            'title' => __('Please rate and review Contact Form Styler for Divi!', 'form-styler-for-divi'),
-            'message' => __('We hope you\'re enjoying using Contact Form Styler for Divi. Please take a moment to rate and review the plugin. Your feedback helps us improve and serve you better!', 'form-styler-for-divi'),
-            'type' => 'success',
-            'show_after' => 'minute',
-            'screens' => ['plugins', 'dashboard'],
-            'buttons' => [
-                [
-                    'text' => __('Rate and Review', 'form-styler-for-divi'),
-                    'url' => 'https://wordpress.org/support/plugin/cf7-styler-for-divi/reviews/?filter=5#new-post',
-                    'class' => 'button-primary',
-                    'target' => '_blank'
-                ],
-                [
-                    'text' => __('No, Thanks', 'form-styler-for-divi'),
-                    'url' => '#',
-                    'class' => 'button-secondary notice-dismiss',
-                    'target' => '_self',
-                    'dismiss' => true
-                ]
-            ]
-        ]);
+        // new Admin_Notices([
+        //     'slug' => 'divi_form_styler_ask_review',
+        //     'title' => __('Please rate and review Contact Form Styler for Divi!', 'form-styler-for-divi'),
+        //     'message' => __('We hope you\'re enjoying using Contact Form Styler for Divi. Please take a moment to rate and review the plugin. Your feedback helps us improve and serve you better!', 'form-styler-for-divi'),
+        //     'type' => 'success',
+        //     'show_after' => 'hour',
+        //     'screens' => ['plugins', 'dashboard'],
+        //     'buttons' => [
+        //         [
+        //             'text' => __('Rate and Review', 'form-styler-for-divi'),
+        //             'url' => 'https://wordpress.org/support/plugin/cf7-styler-for-divi/reviews/?filter=5#new-post',
+        //             'class' => 'button-primary',
+        //             'target' => '_blank'
+        //         ],
+        //     ]
+        // ]);
     }
 
     /**
