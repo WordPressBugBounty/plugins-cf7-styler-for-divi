@@ -1,11 +1,11 @@
-=== Contact Form 7 Styler for Divi ===
+=== Divi Contact Form 7 Styler ===
 
 Contributors: badhonrocks, plugpressco
 Tags: contact form 7, divi, divi builder, cf7 styler, form design
 Donate link: https://diviextensions.com/
 Requires at least: 5.0
 Tested up to: 6.7.1
-Stable tag: 2.3.2
+Stable tag: 2.3.3
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -19,23 +19,29 @@ Are you tired of plain, boring Contact Form 7 forms that don't match your websit
 
 Most helpful links
 <ul>
-    <li><a href="https://diviextensions.com/divi-cf7-styler/demo/?utm_campaign=wporg&utm_source=cf7-styler" target="_blank" rel="">Contact Form 7 Styler for Divi</a></li>
-    <li><a href="https://diviextensions.com/?utm_campaign=wporg&utm_source=cf7-styler" target="_blank" rel="">DiviExtensions Plugins</a></li>
+    <li><a href="https://diviextensions.com/divi-cf7-styler/?utm_campaign=wporg&utm_source=cf7-styler" target="_blank" rel="">Contact Form 7 Styler for Divi</a></li>
     <li><a href="https://diviextensions.com/docs/?utm_campaign=wporg&utm_source=cf7-styler" target="_blank" rel="">Knowledge Base</a></li>
+    <li><a href="https://diviextensions.com/?utm_campaign=wporg&utm_source=cf7-styler" target="_blank" rel="">All DiviExtensions Plugins</a></li>
 </ul>
 
 <strong>🌟 KEY FEATURES</strong>
 
 <ul>
-    <li><strong>Visual Form Styling:</strong> Style every element of your Contact Form 7 forms using Divi's intuitive visual builder. Customize colors, fonts, spacing, borders and more with just a few clicks.</li>
-
-    <li><strong>Powerful Grid Builder:</strong> Create responsive, multi-column form layouts easily with our built-in grid system. Design forms that look great on all devices.</li>
-
-    <li><strong>Complete Design Control:</strong> Customize form fields, labels, buttons, success messages, and error states to match your brand perfectly.</li>
-
-    <li><strong>Zero Coding Required:</strong> Our user-friendly interface makes form styling accessible to everyone - no CSS or technical knowledge needed.</li>
-
-    <li><strong>Responsive Design:</strong> All styled forms automatically adapt to mobile devices, ensuring a great user experience across all screen sizes.</li>
+    <li>
+        <strong>Visual Form Styling:</strong> Style every element of your Contact Form 7 forms using Divi's intuitive visual builder. Customize colors, fonts, spacing, borders and more with just a few clicks.
+    </li>
+    <li>
+        <strong>Powerful Grid Builder:</strong> Create responsive, multi-column form layouts easily with our built-in grid system. Design forms that look great on all devices.
+    </li>
+    <li>
+        <strong>Complete Design Control:</strong> Customize form fields, labels, buttons, success messages, and error states to match your brand perfectly.
+    </li>
+    <li>
+        <strong>Zero Coding Required:</strong> Our user-friendly interface makes form styling accessible to everyone - no CSS or technical knowledge needed.
+    </li>
+    <li>
+        <strong>Responsive Design:</strong> All styled forms automatically adapt to mobile devices, ensuring a great user experience across all screen sizes.
+    </li>
 </ul>
 
 <strong>🚀 WHY CHOOSE CONTACT FORM 7 STYLER FOR DIVI?</strong>
@@ -65,6 +71,10 @@ For detailed setup instructions, please visit our <a href="https://diviextension
 2. Contact Form 7 Grid Builder
 
 == Changelog ==
+
+= 2.3.3 =
+* Fixed compatibility issues
+* Fixed some PHP error
 
 = 2.3.2 =
 * Fixed name of the plugin
