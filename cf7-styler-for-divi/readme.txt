@@ -5,7 +5,7 @@ Tags: contact form 7, divi, divi builder, cf7 styler, form design
 Donate link: https://diviextensions.com/
 Requires at least: 5.0
 Tested up to: 6.7.1
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -19,7 +19,7 @@ Are you tired of plain, boring Contact Form 7 forms that don't match your websit
 
 Most helpful links
 <ul>
-    <li><a href="https://diviextensions.com/divi-cf7-styler/demo//?utm_campaign=wporg&utm_source=cf7-styler" target="_blank" rel="">Contact Form 7 Styler for Divi</a></li>
+    <li><a href="https://diviextensions.com/divi-cf7-styler/demo/?utm_campaign=wporg&utm_source=cf7-styler" target="_blank" rel="">Contact Form 7 Styler for Divi</a></li>
     <li><a href="https://diviextensions.com/?utm_campaign=wporg&utm_source=cf7-styler" target="_blank" rel="">DiviExtensions Plugins</a></li>
     <li><a href="https://diviextensions.com/docs/?utm_campaign=wporg&utm_source=cf7-styler" target="_blank" rel="">Knowledge Base</a></li>
 </ul>
@@ -65,6 +65,10 @@ For detailed setup instructions, please visit our <a href="https://diviextension
 2. Contact Form 7 Grid Builder
 
 == Changelog ==
+
+= 2.3.2 =
+* Fixed name of the plugin
+* Icon deprecated path fix
 
 = 2.3.1 =
 * Fixed compatibility issue with Fluent Forms
