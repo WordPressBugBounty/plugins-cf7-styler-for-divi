@@ -1,19 +1,28 @@
 <?php return array(
     'root' => array(
-        'name' => 'diviextensions/cf7-styler-for-divi',
+        'name' => 'plugpress/cf7-styler-for-divi',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'a0988488203736c0d8557df8fe99fef975fa0d21',
+        'reference' => '32510adf78d20a07cb1280cffaa880fc0c7934ca',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
-        'diviextensions/cf7-styler-for-divi' => array(
+        'freemius/wordpress-sdk' => array(
+            'pretty_version' => '2.13.0',
+            'version' => '2.13.0.0',
+            'reference' => '3cbe98b5bd0b0fb5ca4df97b8088592737ea4375',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../freemius/wordpress-sdk',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'plugpress/cf7-styler-for-divi' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'a0988488203736c0d8557df8fe99fef975fa0d21',
+            'reference' => '32510adf78d20a07cb1280cffaa880fc0c7934ca',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -7,7 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'Divi_CF7_Styler\\Assets' => $baseDir . '/includes/assets.php',
-    'Divi_CF7_Styler\\CF7_Grid' => $baseDir . '/includes/grid.php',
-    'Divi_CF7_Styler\\Plugin' => $baseDir . '/includes/plugin.php',
 );

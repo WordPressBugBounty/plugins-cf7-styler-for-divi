@@ -1,263 +1,150 @@
-=== CF7 Styler for Divi - Lean Forms ===
+=== Styler Mate for Contact Form 7 - CF7 Mate ===
 
 Contributors: badhonrocks, plugpressco
-Tags: contact form, divi, cf7, form styler, form builder
-Donate link: https://plugpress.io/lean-forms
-Requires at least: 5.0
-Tested up to: 6.8.3
-Stable tag: 2.3.4
-License: GPLv3
-License URI: https://opensource.org/licenses/GPL-3.0
+Tags: contact form 7, cf7 styler, form entries, divi contact form, elementor form
+Requires at least: 5.6
+Tested up to: 6.9
+Requires PHP: 7.4
+Stable tag: 3.0.0
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Style Contact Form 7 forms with Divi Builder.
+Style and extend Contact Form 7 with visual builders. Save entries, add star ratings, multi-step forms, and more.
 
 == Description ==
 
-**Professional Contact Form 7 Styling for Divi Builder**
+**CF7 Mate** (formerly CF7 Styler for Divi) is an all-in-one toolkit for Contact Form 7. Customize every aspect of your forms visually — no CSS needed — and unlock powerful features like form entries, star ratings, range sliders, and multi-step forms.
 
-Create beautiful, responsive Contact Form 7 forms using Divi's visual builder. [CF7 Styler for Divi - Lean Forms](https://plugpress.io/lean-forms) provides powerful styling tools, form presets, and grid layouts to transform basic forms into professional designs without coding.
+Works with **Divi 4 & 5**, **Gutenberg**, **Elementor**, and **Bricks**.
 
-**Core Features:**
+= Why CF7 Mate? =
 
-* **Visual Form Styling:** Complete control over form appearance with Divi's intuitive interface
-* **Responsive Grid Layouts:** Multi-column form designs that adapt to all screen sizes
-* **Form Entry Management:** Capture, store, and manage all form submissions
-* **Professional Form Presets:** 14 pre-designed form styles including city-themed templates
-* **Divi Builder Integration:** Native module for seamless visual form building
-* **Privacy Protection:** Automatic filtering of sensitive data from submissions
-* **Performance Optimized:** Lightweight codebase with minimal impact on site speed
+Contact Form 7 is powerful but ships with minimal styling. CF7 Mate bridges that gap by giving you full visual control over how your forms look and behave — directly inside the page builder you already use.
 
-**Pro Version Features:**
+= Free Features =
 
-Extend functionality with [Lean Forms Pro](https://plugpress.io/lean-forms/#leanforms-pricing) for advanced form building capabilities:
+* **Visual Form Styling** — Customize colors, spacing, borders, and typography for every form element
+* **Multi-Builder Support** — Native modules for Divi (4 & 5), Gutenberg block, Elementor widget, and Bricks element
+* **Form Header** — Add titles, descriptions, icons, or images above your form
+* **Grid Layout** — Arrange fields in responsive multi-column grids
+* **Field Styling** — Control background, borders, focus states, height, and spacing
+* **Button Styling** — Customize text color, background, padding, border radius, and hover effects
+* **Label & Placeholder Styling** — Fine-tune label color, spacing, and placeholder appearance
+* **Radio & Checkbox Styling** — Custom sizes, colors, and border styles for radio buttons and checkboxes
+* **Validation Messages** — Style success, error, and field-level validation messages
+* **Responsive** — All styles adapt to desktop, tablet, and mobile screens
+* **Lightweight** — No bloat. Only loads assets on pages that use your forms
 
-**Advanced Form Features:**
-* **Multi-Step Forms:** Create engaging, step-by-step form experiences that increase conversions by 30-50%
-* **Rating Fields:** Star rating systems for feedback and reviews
-* **Range Slider Fields:** Interactive sliders for ratings, pricing, and preferences
-* **Color Picker Fields:** Let users select colors for design preferences
-* **Divider Fields:** Visual separators to organize form sections
-* **Conditional Logic:** Show/hide fields based on user responses for personalized experiences
+= Pro Features =
 
-**Form Entry Management:**
-* **Form Entries Collection:** Automatically captures and stores all Contact Form 7 submissions with spam filtering
-* **Entry Export:** Export submissions to CSV format (up to 500 rows in free version)
-* **Admin Dashboard:** Modern interface for managing entries and settings
-* **Privacy Focused:** Automatically strips sensitive data like passwords and credit card numbers
+* **Form Entries** — Save every submission to your WordPress database and export to CSV
+* **Multi-Step Forms** — Build wizard-style forms with progress indicators and step navigation
+* **Multi-Column Layouts** — Advanced column arrangements with custom responsive breakpoints
+* **Star Rating Field** — Collect feedback and reviews with customizable star ratings
+* **Range Slider Field** — Let users pick values with an interactive slider
+* **Calculator Field** — Add calculated fields based on other form inputs
+* **Design Presets** — Save and reuse form styles across your site
+* **AI Form Generator** — Generate complete CF7 forms from a text prompt
+* **Webhook Integration** — Send form data to external services on submission
+* **Heading, Separator, Icon & Image Fields** — Enhance your forms with visual elements
 
-**Beautiful Form Presets:**
-* **Professional Templates:** 14 professionally designed form styles
-* **City-Themed Presets:** Dhaka (free), London, Paris, Berlin, Tokyo and more (Pro)
-* **Responsive Design:** All presets work perfectly on mobile devices
-* **Easy Application:** Apply presets with one click
+[Learn more about Pro features →](https://cf7mate.com)
 
-**Responsive Grid System:**
-* **12-Column Grid:** Create complex form layouts with responsive shortcodes
-* **Mobile-First Design:** Automatic responsive behavior across all devices
-* **Easy Implementation:** Simple shortcode syntax for developers and non-developers
+= Builder Compatibility =
 
-**Powerful Integrations:**
-* **Google Sheets Integration:** Automatically sync form submissions to Google Spreadsheets
-* **Airtable Integration:** Push submissions to Airtable tables
-* **Email Marketing:** Connect with Mailchimp, ConvertKit, and other email platforms
-* **Webhook Support:** Send data to any third-party service
+CF7 Mate includes native integrations — not shortcode wrappers — for each builder:
 
-**Page Builder Support:**
-* **Divi Builder Integration:** Native Divi module for visual form styling
-* **Bricks Builder Support:** Seamless integration with Bricks Builder
-* **Performance Optimized:** Lightweight codebase with minimal impact on site speed
+* **Divi 4** — Full Divi Builder module with visual controls
+* **Divi 5** — Purpose-built module for the new Divi 5 architecture
+* **Gutenberg** — Block editor block with live server-rendered preview
+* **Elementor** — Dedicated widget with Elementor-native controls
+* **Bricks** — Custom element for the Bricks Builder
 
-**Benefits of Pro Version:**
+= Developers =
 
-* **Higher Conversion Rates:** Multi-step forms and conditional logic improve completion rates
-* **Time Savings:** Pre-built templates and advanced features accelerate development
-* **Professional Standards:** Enterprise-level form functionality and design
-* **Agency Ready:** Perfect solution for managing multiple client websites
-* **Lead Generation Focus:** Features specifically designed for conversion optimization
+The free version source code is available on [GitHub](https://github.com/plugpress-io/cf7-styler-for-divi). Feel free to fork or build from source.
 
-**Documentation & Support:**
-* [Knowledge Base & Documentation](https://plugpress.io/docs-category/lean-forms/)
-* [Video Tutorials](https://plugpress.io/lean-forms)
-* [Community Support](https://plugpress.io/lean-forms)
-* [Priority Support for Pro Users](https://plugpress.io/lean-forms)
+= Who Is This For? =
 
-**Use Cases:**
-* Marketing agencies building client forms
-* E-commerce stores requiring custom form designs
-* Service businesses needing detailed contact forms
-* Real estate professionals collecting inquiries
-* Healthcare providers gathering patient information
-* Educational institutions processing applications
-
-Start with the free version and upgrade to Pro for advanced features including multi-step forms, conditional logic, and unlimited exports.
-
-[**Upgrade to Pro Version**](https://plugpress.io/lean-forms/#leanforms-pricing)
+* Agencies building branded forms for clients
+* Online stores that need styled order or inquiry forms
+* Service businesses collecting leads through custom contact forms
+* Anyone using Contact Form 7 who wants better-looking forms without writing CSS
 
 == Installation ==
 
-> **Requirements:** This plugin requires the [Divi Theme](https://www.elegantthemes.com/) and [Contact Form 7](https://wordpress.org/plugins/contact-form-7/) to be installed and active.
+1. Install the plugin from the WordPress plugin directory or upload the files to `/wp-content/plugins/`.
+2. Activate the plugin through the **Plugins** menu in WordPress.
+3. Make sure [Contact Form 7](https://wordpress.org/plugins/contact-form-7/) is installed and active.
+4. Open your preferred page builder and look for the **CF7 Mate** module, block, widget, or element.
 
-1. Install the plugin from the WordPress plugin directory or upload the files to `/wp-content/plugins/`
-2. Activate the plugin through the 'Plugins' menu in WordPress admin
-3. Ensure Divi Theme and Contact Form 7 are installed and active
-4. Use the new CF7 Styler module in Divi Builder to style your forms
-5. Visit [Lean Forms](https://plugpress.io/lean-forms) to upgrade to Pro for advanced features
+= Requirements =
 
-For detailed setup instructions, visit our [documentation](https://plugpress.io/docs-category/lean-forms/).
+* WordPress 5.6 or higher
+* PHP 7.4 or higher
+* Contact Form 7 plugin (active)
+* At least one supported page builder: Divi, Gutenberg, Elementor, or Bricks
 
 == Frequently Asked Questions ==
 
-**Q: Do I need the Divi Theme to use this plugin?**
+= Do I need Divi to use this plugin? =
 
-A: Yes, this plugin is specifically designed for the Divi Theme and requires it to be active.
+No. CF7 Mate works with Divi, Gutenberg (WordPress block editor), Elementor, and Bricks. You only need one of these builders installed.
 
-**Q: What features are included in the free version?**
+= Does this work with the default WordPress editor? =
 
-A: The free version includes visual form styling, responsive grid layouts, form entry management, professional presets, and CSV export (up to 500 entries).
+Yes. CF7 Mate includes a Gutenberg block that works in the standard WordPress block editor — no additional page builder required.
 
-**Q: What additional features does the Pro version offer?**
+= Is this compatible with Divi 5? =
 
-A: Pro version adds multi-step forms, conditional logic, advanced field types (rating, range slider, color picker), Google Sheets integration, and unlimited exports.
+Yes. CF7 Mate has a dedicated module built specifically for Divi 5, alongside continued support for Divi 4.
 
-**Q: Does this plugin work with other form plugins?**
+= Does this replace Contact Form 7? =
 
-A: This plugin is designed specifically for Contact Form 7. It extends CF7's functionality rather than replacing it.
+No. CF7 Mate extends Contact Form 7. You still create and manage your forms in CF7 — this plugin adds styling and extra features on top.
 
-**Q: Is there a money-back guarantee?**
+= Why did the name change from CF7 Styler to CF7 Mate? =
 
-A: Yes, we offer a 30-day money-back guarantee for all Pro purchases.
+The plugin has grown well beyond styling. With form entries, star ratings, multi-step forms, calculators, and more, the new name better reflects everything it does.
 
-**Q: Do you provide support?**
+= Can I use this on multiple sites? =
 
-A: Yes, we provide comprehensive support through our knowledge base and email support. Pro users get priority support.
+The free version can be used on unlimited sites. Pro license terms depend on your plan.
 
-**Q: Can I use this on multiple sites?**
+= Where can I get support? =
 
-A: Yes, you can use the free version on unlimited sites. Pro licenses are available for single sites or multiple sites.
-
-**Q: How do multi-step forms improve conversions?**
-
-A: Multi-step forms break long forms into smaller sections, reducing user overwhelm and improving completion rates.
-
-**Q: Can I export my form entries?**
-
-A: Yes, the free version allows CSV export of up to 500 entries. Pro version offers unlimited exports.
-
-**Q: Is this plugin compatible with other page builders?**
-
-A: This plugin is designed specifically for Divi Builder. Similar solutions are available for other page builders.
-
-**Q: Can I try Pro features before purchasing?**
-
-A: Pro features are available with a 30-day money-back guarantee, allowing risk-free testing.
+Visit [cf7mate.com](https://cf7mate.com) for documentation and support.
 
 == Screenshots ==
 
-1. **Visual Form Styling Interface** - Intuitive form customization with Divi Builder
-2. **Responsive Grid Layouts** - Multi-column form designs for all screen sizes
-3. **Professional Form Presets** - Pre-designed templates for various industries
-4. **Form Entry Management** - Complete submission tracking and management
-5. **Mobile Responsive Design** - Automatic adaptation to mobile devices
-6. **Multi-Step Forms** - Step-by-step form experiences (Pro feature)
-7. **Advanced Field Types** - Rating, range slider, and color picker fields (Pro feature)
-8. **Integration Options** - Google Sheets and Airtable connectivity (Pro feature)
+1. Visual form styling with Divi Builder — customize every element without CSS
+2. Gutenberg block with live preview in the WordPress editor
+3. Responsive grid layout for multi-column form designs
+4. Form entries dashboard — view and export submissions
 
 == Changelog ==
 
+= 3.0.0 =
+* New: Rebranded to CF7 Mate (formerly CF7 Styler for Divi)
+* New: Divi 5 module with full visual builder support
+* New: Gutenberg block with live server-rendered preview
+* New: Admin dashboard with feature toggles
+* New: Elementor and Bricks builder integrations
+* Improved: Codebase rewritten for better performance and maintainability
+* Improved: Compatibility with WordPress 6.9
+
 = 2.3.4 =
-* Enhanced admin notice system with pro upgrade prompts
-* Improved 5-star review request functionality
-* Better user experience with clean, professional design
-* Performance optimizations and bug fixes
+* Improved: Admin notice system with cleaner design
+* Improved: Review request flow and user experience
+* Fixed: Minor performance optimizations and bug fixes
 
 = 2.3.3 =
-* Fixed compatibility issues with latest WordPress versions
-* Improved form styling performance
-* Enhanced mobile responsiveness
-* Better error handling
-
-= 2.3.2 =
-* Fixed plugin name consistency
-* Resolved icon font loading issues
-* Improved Divi Builder integration
-* Enhanced form field styling options
-
-= 2.3.1 =
-* Fixed compatibility with Fluent Forms
-* Resolved Gravity Forms integration issues
-* Improved icon font rendering
-* Streamlined admin interface
-
-= 2.3.0 =
-* Major UI/UX improvements
-* Enhanced form styling capabilities
-* Improved grid builder functionality
-* Performance optimizations
-* Better mobile experience
-
-= 2.2.2 =
-* Resolved SVN conflicts
-* Cleaned up unnecessary code
-* Improved plugin stability
-
-= 2.2.1 =
-* Fixed notice dismissal functionality
-* Resolved PHP errors in grid CSS
-* Enhanced error handling
-
-= 2.2.0 =
-* Added Grid Builder for Contact Form 7
-* Removed activation redirects
-* Fixed random PHP errors
-* Improved user experience
-
-= 2.1.1 =
-* Fixed playground support issues
-* Enhanced compatibility
-
-= 2.1.0 =
-* Added WordPress.org playground support
-* Cleaned up codebase
-* Removed unnecessary dashboard elements
-* Improved performance
-
-= 2.0.1 =
-* Fixed asset file loading issues
-* Resolved PHP errors
-
-= 2.0.0 =
-* Major update with improved styling options
-* Enhanced user interface
-* Better performance and stability
-* Redesigned form builder
-
-= 1.3.4 =
-* Code cleanup and optimization
-* Removed unused functionality
-
-= 1.3.3 =
-* Removed Freemius SDK
-* Cleaned up admin notices
-* Improved plugin performance
-
-= 2.3.2 =
-* Resolved license key issues
-* Fixed activation problems
-
-= 1.3.1 =
-* Fixed critical PHP errors
-* Improved error handling
-
-= 1.3.0 =
-* Implemented security fixes
-* Enhanced plugin security
+* Fixed: Compatibility issues with recent WordPress versions
+* Improved: Form styling performance
+* Improved: Mobile responsiveness
+* Fixed: Error handling improvements
 
 == Upgrade Notice ==
 
-= 2.3.4 =
-This update includes enhanced admin notices, improved user experience, and performance optimizations. We recommend updating to take advantage of the latest features and improvements.
-
-== Upgrade Notice ==
-
-= 2.3.0 =
-Important update with enhanced styling capabilities, improved performance, and better mobile experience. Please backup your website before updating to ensure a smooth transition.
+= 3.0.0 =
+Major update: rebranded to CF7 Mate with Divi 5 support, Gutenberg block, new admin dashboard, and multi-builder integrations. All existing settings and forms carry over automatically.
