@@ -3,15 +3,18 @@
 Plugin Name: Styler Mate for Contact Form 7
 Plugin URI: https://cf7mate.com
 Description: CF7 Mate is a plugin for Contact Form 7 that allows you to style your forms.
-Version: 3.0.1
+Version: 3.0.2
 Author: Fahim Reza
 Author URI:  https://plugpress.io
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: cf7-styler-for-divi
 Domain Path: /languages
+Requires at least: 6.0
+Requires PHP: 7.4
+Requires Plugins: contact-form-7
 
-@fs_premium_only /includes/pro/, /assets/pro/
+@fs_premium_only /includes/pro/, /assets/pro/, /dist/js/admin-pro.js
 */
 
 // Exit if accessed directly.
@@ -30,8 +33,8 @@ if (!function_exists('cf7m_lite_maybe_self_deactivate')) {
         if (is_plugin_active('cf7-mate-pro/cf7-mate-pro.php')) {
             deactivate_plugins(plugin_basename(__FILE__));
 
-            if (isset($_GET['activate'])) {
-                unset($_GET['activate']);
+            if (isset($_GET['activate'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                unset($_GET['activate']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             }
 
             add_action('admin_notices', function () {
@@ -57,7 +60,7 @@ if (!function_exists('cf7m_lite_maybe_self_deactivate')) {
     });
 }
 
-define('CF7M_VERSION', '3.0.1');
+define('CF7M_VERSION', '3.0.2');
 define('CF7M_BASENAME', plugin_basename(__FILE__));
 define('CF7M_BASENAME_DIR', plugin_basename(__DIR__));
 define('CF7M_PLUGIN_PATH', plugin_dir_path(__FILE__));

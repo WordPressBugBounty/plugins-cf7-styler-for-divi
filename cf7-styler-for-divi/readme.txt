@@ -5,7 +5,7 @@ Tags: contact form 7, cf7 styler, bricks, divi, elementor
 Requires at least: 5.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -123,6 +123,15 @@ Visit [cf7mate.com](https://cf7mate.com) for documentation and support.
 4. Form entries dashboard — view and export submissions
 
 == Changelog ==
+
+= 3.0.2 =
+* Fixed: Minor bug fixes and performance improvements
+* Improved: Lite vs Pro feature detection for better compatibility with third-party plugins
+* WordPress 6.9 compatibility updates
+* Removed: pro css from free package
+
+= 3.0.1 =
+* Fixed: Fix naming of plugin
 
 = 3.0.0 =
 * New: Rebranded to CF7 Mate (formerly CF7 Styler for Divi)

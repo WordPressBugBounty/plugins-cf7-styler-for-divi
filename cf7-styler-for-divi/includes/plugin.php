@@ -2,6 +2,10 @@
 
 namespace CF7_Mate;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 class Plugin
 {
     private static $instance = null;
@@ -39,7 +43,7 @@ class Plugin
             'assets.php',
             'rest-api.php',
             'notices/review.php',
-            'notices/promo.php',
+
             'admin/admin.php',
             'admin/onboarding.php',
         ];
@@ -92,12 +96,11 @@ class Plugin
 
     public function load_premium_loader()
     {
-        $premium_loader = CF7M_PLUGIN_PATH . 'includes/pro/loader.php';
-        if (!file_exists($premium_loader)) {
+        if (function_exists('cf7m_can_use_premium') && !cf7m_can_use_premium()) {
             return;
         }
-        // Use cf7m_can_use_premium() which handles all cases: dev mode, self-hosted, and licensed
-        if (!function_exists('cf7m_can_use_premium') || !cf7m_can_use_premium()) {
+        $premium_loader = CF7M_PLUGIN_PATH . 'includes/pro/loader.php';
+        if (!file_exists($premium_loader)) {
             return;
         }
         require_once $premium_loader;
@@ -130,7 +133,7 @@ class Plugin
     private function define_hooks()
     {
         register_activation_hook(self::BASENAME, [$this, 'on_activation']);
-        add_action('init', [$this, 'load_textdomain'], 0);
+
         add_action('et_builder_ready', [$this, 'load_modules'], 11);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_cf7_tag_admin_styles'], 20);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_cf7_tag_admin_scripts'], 20);
@@ -192,10 +195,6 @@ class Plugin
         update_option('cf7m_current_version', CF7M_VERSION);
     }
 
-    public function load_textdomain()
-    {
-        load_plugin_textdomain('cf7-styler-for-divi', false, CF7M_BASENAME_DIR . '/languages');
-    }
 
     public function load_modules()
     {
@@ -240,10 +239,6 @@ class Plugin
             Admin_Review_Notice::instance();
         }
 
-        // Initialize promotional notice (NEW2026 lifetime deal)
-        if (class_exists(__NAMESPACE__ . '\Admin_Promo_Notice')) {
-            Admin_Promo_Notice::instance();
-        }
 
         // Initialize onboarding
         if (class_exists(__NAMESPACE__ . '\Onboarding')) {

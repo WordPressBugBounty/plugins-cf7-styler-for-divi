@@ -8,9 +8,6 @@ if (!defined('ABSPATH')) {
 
 require_once ABSPATH . 'wp-content/themes/Divi/includes/builder-5/server/Framework/DependencyManagement/Interfaces/DependencyInterface.php';
 
-if (defined('CF7M_PLUGIN_PATH')) {
-    require_once CF7M_PLUGIN_PATH . 'includes/pro/design-presets.php';
-}
 
 use ET\Builder\Framework\DependencyManagement\Interfaces\DependencyInterface;
 
@@ -206,8 +203,8 @@ class CF7Styler implements DependencyInterface
                 $icon_processed = function_exists('et_pb_process_font_icon') ? et_pb_process_font_icon($header_icon) : $header_icon;
                 $icon_processed = esc_html($icon_processed);
 
-                if (function_exists('dcs_inject_fa_icons')) {
-                    dcs_inject_fa_icons($header_icon);
+                if (function_exists('cf7m_inject_fa_icons')) {
+                    cf7m_inject_fa_icons($header_icon);
                 }
 
                 $media_html = sprintf(
