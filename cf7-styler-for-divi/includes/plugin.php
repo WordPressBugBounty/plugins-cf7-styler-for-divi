@@ -43,6 +43,7 @@ class Plugin
             'assets.php',
             'rest-api.php',
             'notices/review.php',
+            'notices/upgrade.php',
 
             'admin/admin.php',
             'admin/onboarding.php',
@@ -60,6 +61,9 @@ class Plugin
         if (file_exists($lite_loader)) {
             require_once $lite_loader;
         }
+
+        // Bootstrap License Manager early (before plugins_loaded priority 5) so cf7m_is_pro() can call it.
+        $this->bootstrap_license_manager();
 
         // Load Premium Features early so form-tag registration (wpcf7_init) is hooked before CF7 runs.
         add_action('plugins_loaded', [$this, 'load_premium_loader'], 5);
@@ -94,9 +98,31 @@ class Plugin
         }
     }
 
+    private function bootstrap_license_manager()
+    {
+        // Bootstrap whenever pro code is available — pro build OR dev mode bypass.
+        if (!function_exists('cf7m_is_pro') || !cf7m_is_pro()) {
+            return;
+        }
+
+        // Load Singleton trait first (needed by License_Manager)
+        $trait_file = CF7M_PLUGIN_PATH . 'includes/pro/Traits/singleton.php';
+        if (file_exists($trait_file)) {
+            require_once $trait_file;
+        }
+
+        $license_file = CF7M_PLUGIN_PATH . 'includes/pro/license/class-license-manager.php';
+        if (!file_exists($license_file)) {
+            return;
+        }
+
+        require_once $license_file;
+        \CF7_Mate\License\License_Manager::instance();
+    }
+
     public function load_premium_loader()
     {
-        if (function_exists('cf7m_can_use_premium') && !cf7m_can_use_premium()) {
+        if (!cf7m_is_pro()) {
             return;
         }
         $premium_loader = CF7M_PLUGIN_PATH . 'includes/pro/loader.php';
@@ -234,11 +260,15 @@ class Plugin
 
     private function init_components()
     {
-        // Initialize review notice (star rating)
+        // Review request notice (free only — gated on dismissal state internally).
         if (class_exists(__NAMESPACE__ . '\Admin_Review_Notice')) {
             Admin_Review_Notice::instance();
         }
 
+        // Subtle Pro upgrade notice (free only — self-skips when cf7m_is_pro()).
+        if (class_exists(__NAMESPACE__ . '\Admin_Upgrade_Notice')) {
+            Admin_Upgrade_Notice::instance();
+        }
 
         // Initialize onboarding
         if (class_exists(__NAMESPACE__ . '\Onboarding')) {

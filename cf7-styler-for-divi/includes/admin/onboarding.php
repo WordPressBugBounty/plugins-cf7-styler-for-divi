@@ -57,7 +57,7 @@ class Onboarding
         }
         self::reset_onboarding();
         set_transient('cf7m_run_onboarding_' . get_current_user_id(), '1', 60);
-        wp_safe_redirect(admin_url('admin.php?page=cf7-mate-dashboard'));
+        wp_safe_redirect(admin_url('admin.php?page=cf7-mate'));
         exit;
     }
 
@@ -70,19 +70,9 @@ class Onboarding
         }
         delete_transient($transient_key);
 
-        // Gate on ?page= directly — more reliable than hook name which Freemius can alter.
         $page = isset($_GET['page']) ? sanitize_key(wp_unslash($_GET['page'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification
         if (strpos($page, 'cf7-mate') !== 0) {
             return;
-        }
-
-        // On the top-level cf7-mate page Freemius shows its own opt-in modal.
-        // Suppress onboarding there while opt-in is still pending to avoid two modals at once.
-        if ($page === 'cf7-mate' && function_exists('cf7m_fs')) {
-            $fs = cf7m_fs();
-            if (!$fs->is_registered() && !$fs->is_anonymous()) {
-                return;
-            }
         }
 
         // Only show for users who haven't completed/skipped onboarding.
@@ -116,9 +106,9 @@ class Onboarding
             'current_step' => $this->get_current_step(),
             'create_page_url' => admin_url('post-new.php?post_type=page'),
             'cf7_admin_url' => admin_url('admin.php?page=wpcf7'),
-            'dashboard_url' => admin_url('admin.php?page=cf7-mate-dashboard'),
-            'pricing_url' => function_exists('cf7m_get_pricing_url') ? cf7m_get_pricing_url('NEW2026') : CF7M_URL_PRICING,
-            'is_pro' => class_exists('CF7_Mate\Premium_Loader'),
+            'dashboard_url' => admin_url('admin.php?page=cf7-mate'),
+            'pricing_url' => defined('CF7M_URL_PRICING') ? CF7M_URL_PRICING : '',
+            'is_pro' => function_exists('cf7m_is_pro') && cf7m_is_pro(),
             'rebrand_seen' => $this->is_rebrand_seen(),
             'onboarding_completed' => $this->is_onboarding_completed(),
             'version' => defined('CF7M_VERSION') ? CF7M_VERSION : '3.0.0',
@@ -151,7 +141,7 @@ class Onboarding
             return;
         }
 
-        $setup_url    = esc_url(admin_url('admin.php?page=cf7-mate-dashboard&cf7m_guided_setup=1'));
+        $setup_url    = esc_url(admin_url('admin.php?page=cf7-mate&cf7m_guided_setup=1'));
         $dismiss_nonce = wp_create_nonce('cf7m_skip_setup_notice');
         ?>
         <div id="cf7m-setup-notice" class="notice notice-info" style="display:flex;align-items:center;padding:16px 40px 16px 16px;gap:16px;border-left-color:#3044D7;background:#f0f2ff;">
@@ -298,8 +288,11 @@ class Onboarding
                     'database_entries' => true,
                     'range_slider' => true,
                     'separator' => true,
+                    'heading' => true,
                     'image' => true,
                     'icon' => true,
+                    'ai_form_generator' => true,
+                    'conditional' => true,
                 ];
 
                 $sanitized = [];

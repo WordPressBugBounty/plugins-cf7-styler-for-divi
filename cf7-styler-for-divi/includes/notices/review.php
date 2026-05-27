@@ -1,393 +1,252 @@
 <?php
+/**
+ * Review request notice (free build).
+ *
+ * Lives at the top of CF7 Mate's own admin pages only — never on Dashboard,
+ * Plugins, or any other admin screen (per WordPress.org guideline §10:
+ * upsell/review notices must be restricted to the plugin's own pages).
+ *
+ * Cadence:
+ *   - First appears 7 days after install.
+ *   - 1st dismiss → re-appears 30 days later.
+ *   - 2nd dismiss → re-appears 90 days later.
+ *   - 3rd dismiss → never shown again.
+ *   - 4–5★ rating → opens wp.org review form + permanent dismiss.
+ *   - 1–3★ rating → permanent dismiss (no nag; route to support instead).
+ *
+ * @package CF7_Mate
+ * @since 3.0.5
+ */
 
 namespace CF7_Mate;
 
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
-class Admin_Review_Notice
-{
-    private static $instance = null;
+class Admin_Review_Notice {
 
-    const NOTICE_ID = 'dcs_review_notice';
-    const DISMISSED_OPTION = 'dcs_review_notice_dismissed';
-    const INSTALL_DATE_OPTION = 'cf7m_install_date';
-    const REVIEW_DELAY = 7 * 24 * 60 * 60;
+	private static $instance = null;
 
-    public static function instance()
-    {
-        if (null === self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+	const NOTICE_ID           = 'cf7m_review_notice';
+	const COUNT_OPTION        = 'cf7m_review_dismiss_count';
+	const NEXT_SHOW_OPTION    = 'cf7m_review_next_show_at';
+	const INSTALL_DATE_OPTION = 'cf7m_install_date';
+	const INITIAL_DELAY       = 7  * DAY_IN_SECONDS;
+	const FIRST_DEFER         = 30 * DAY_IN_SECONDS;
+	const SECOND_DEFER        = 90 * DAY_IN_SECONDS;
+	const MAX_DISMISSALS      = 3;
 
-    private function __construct()
-    {
-        $this->init();
-    }
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
 
-    private function init()
-    {
-        add_action('admin_notices', [$this, 'display_notice']);
-        add_action('wp_ajax_dcs_dismiss_review_notice', [$this, 'dismiss_notice']);
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
-    }
+	private function __construct() {
+		add_action( 'admin_notices', [ $this, 'display_notice' ] );
+		add_action( 'wp_ajax_cf7m_dismiss_review', [ $this, 'ajax_dismiss' ] );
+	}
 
-    public function enqueue_scripts($hook)
-    {
-        // Don't load on CF7 Mate admin pages
-        if ($this->is_cf7_mate_page()) {
-            return;
-        }
+	private function is_cf7_mate_page() {
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return in_array( $page, [ 'cf7-mate', 'cf7-mate-responses', 'cf7-mate-analytics' ], true );
+	}
 
-        // Only load on admin pages
-        if (!in_array($hook, ['index.php', 'plugins.php', 'edit.php', 'post.php', 'post-new.php'])) {
-            return;
-        }
+	private function should_display() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
 
-        wp_enqueue_script(
-            'cf7m-admin-notice',
-            CF7M_PLUGIN_URL . 'dist/js/admin-notice.js',
-            ['jquery'],
-            CF7M_VERSION,
-            true
-        );
+		// Permanently dismissed.
+		$count = (int) get_option( self::COUNT_OPTION, 0 );
+		if ( $count >= self::MAX_DISMISSALS ) {
+			return false;
+		}
 
-        wp_localize_script('cf7m-admin-notice', 'dcs_admin_notice', [
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('dcs_dismiss_notice'),
-            'notice_id' => self::NOTICE_ID
-        ]);
-    }
+		$install_date = (int) get_option( self::INSTALL_DATE_OPTION, 0 );
+		if ( ! $install_date ) {
+			return false;
+		}
 
-    public function display_notice()
-    {
-        // Don't show on CF7 Mate admin pages
-        if ($this->is_cf7_mate_page()) {
-            return;
-        }
+		// Initial 7-day delay after install.
+		if ( time() < $install_date + self::INITIAL_DELAY ) {
+			return false;
+		}
 
-        // Check if notice should be displayed
-        if (!$this->should_display_notice()) {
-            return;
-        }
+		// Honour the snooze timestamp set by previous dismissals.
+		$next_show_at = (int) get_option( self::NEXT_SHOW_OPTION, 0 );
+		if ( $next_show_at && time() < $next_show_at ) {
+			return false;
+		}
 
-        // Check if user has dismissed the notice
-        if ($this->is_notice_dismissed()) {
-            return;
-        }
+		return true;
+	}
 
-        $this->render_notice();
-    }
+	public function display_notice() {
+		if ( ! $this->is_cf7_mate_page() ) {
+			return;
+		}
+		if ( ! $this->should_display() ) {
+			return;
+		}
+		$this->render();
+	}
 
-    /**
-     * Check if current page is a CF7 Mate admin page.
-     */
-    private function is_cf7_mate_page()
-    {
-        $page = isset($_GET['page']) ? sanitize_text_field(wp_unslash($_GET['page'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        return in_array($page, ['cf7-mate-dashboard', 'cf7-mate-modules', 'cf7-mate', 'cf7-mate-pricing'], true);
-    }
+	private function render() {
+		$review_url  = 'https://wordpress.org/support/plugin/cf7-styler-for-divi/reviews/#new-post';
+		$support_url = 'https://cf7mate.com/support';
+		$nonce       = wp_create_nonce( 'cf7m_dismiss_review' );
+		?>
+		<div id="<?php echo esc_attr( self::NOTICE_ID ); ?>" class="cf7m-rn-wrap notice">
+			<div class="cf7m-rn">
+				<svg class="cf7m-rn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+					<path d="M10 1l2.39 5.26 5.61.82-4.06 3.95.96 5.58L10 14.27 5.1 16.61l.96-5.58L2 7.08l5.61-.82L10 1z" fill="#3044d7" fill-opacity=".15" stroke="#3044d7" stroke-width="1.4" stroke-linejoin="round"/>
+				</svg>
 
-    private function should_display_notice()
-    {
-        $install_date = get_option(self::INSTALL_DATE_OPTION);
+				<div class="cf7m-rn__body">
+					<span class="cf7m-rn__label" id="cf7m-rn-label">
+						<?php
+						printf(
+							/* translators: %s: plugin name */
+							esc_html__( 'How are you finding %s?', 'cf7-styler-for-divi' ),
+							'<strong>CF7 Mate</strong>'
+						);
+						?>
+					</span>
 
-        if (!$install_date) {
-            return false;
-        }
+					<span class="cf7m-rn__stars" id="cf7m-rn-stars" role="group" aria-label="<?php esc_attr_e( 'Rate CF7 Mate', 'cf7-styler-for-divi' ); ?>">
+						<?php for ( $i = 1; $i <= 5; $i++ ) : ?>
+						<button type="button" class="cf7m-rn__star" data-rating="<?php echo (int) $i; ?>"
+								aria-label="<?php echo esc_attr( sprintf( /* translators: %d: number of stars */ __( '%d star', 'cf7-styler-for-divi' ), $i ) ); ?>">
+							<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+								<path d="M10 1l2.39 5.26 5.61.82-4.06 3.95.96 5.58L10 14.27 5.1 16.61l.96-5.58L2 7.08l5.61-.82L10 1z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+							</svg>
+						</button>
+						<?php endfor; ?>
+					</span>
+				</div>
 
-        $current_time = time();
-        $time_since_install = $current_time - $install_date;
+				<button type="button" class="cf7m-rn__later" data-action="later">
+					<?php esc_html_e( 'Remind me later', 'cf7-styler-for-divi' ); ?>
+				</button>
+				<button type="button" class="cf7m-rn__close" data-action="dismiss" aria-label="<?php esc_attr_e( 'Dismiss', 'cf7-styler-for-divi' ); ?>">
+					<svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+				</button>
+			</div>
+		</div>
 
-        return $time_since_install >= self::REVIEW_DELAY;
-    }
+		<style>
+			.cf7m-rn-wrap.notice {
+				padding: 0 !important;
+				border-left: none !important;
+				background: #fff !important;
+				border: 1px solid #e5e7eb !important;
+				border-radius: 8px !important;
+				box-shadow: 0 1px 3px rgba(0,0,0,.06) !important;
+				margin: 12px 20px 4px 0 !important;
+				overflow: hidden !important;
+			}
+			.cf7m-rn-wrap .notice-dismiss { display: none !important; }
+			.cf7m-rn { display: flex; align-items: center; gap: 10px; padding: 10px 14px; min-height: 44px; flex-wrap: wrap; }
+			.cf7m-rn__icon { width: 18px; height: 18px; flex-shrink: 0; }
+			.cf7m-rn__body { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; flex-wrap: wrap; }
+			.cf7m-rn__label { font-size: 13px; color: #374151; }
+			.cf7m-rn__label strong { color: #111827; font-weight: 600; }
+			.cf7m-rn__stars { display: inline-flex; gap: 2px; align-items: center; }
+			.cf7m-rn__star { background: none; border: none; padding: 2px; cursor: pointer; color: #d1d5db; transition: color .1s, transform .1s; display: inline-flex; line-height: 1; }
+			.cf7m-rn__star svg { width: 18px; height: 18px; display: block; }
+			.cf7m-rn__star:hover, .cf7m-rn__star.is-lit { color: #f59e0b; transform: scale(1.15); }
+			.cf7m-rn__star.is-lit svg path { fill: #f59e0b; stroke: #f59e0b; }
+			.cf7m-rn__later, .cf7m-rn__close { background: none; border: none; cursor: pointer; color: #9ca3af; border-radius: 4px; transition: color .15s, background .15s; }
+			.cf7m-rn__later { padding: 4px 8px; font-size: 12px; white-space: nowrap; margin-left: auto; }
+			.cf7m-rn__later:hover { color: #6b7280; }
+			.cf7m-rn__close { padding: 4px; display: inline-flex; align-items: center; flex-shrink: 0; }
+			.cf7m-rn__close svg { width: 12px; height: 12px; display: block; }
+			.cf7m-rn__close:hover { color: #374151; background: #f3f4f6; }
+		</style>
 
-    private function is_notice_dismissed()
-    {
-        return get_user_meta(get_current_user_id(), self::DISMISSED_OPTION, true) === '1';
-    }
+		<script type="text/javascript">
+		jQuery(function($){
+			var $notice  = $('#<?php echo esc_js( self::NOTICE_ID ); ?>');
+			var $stars   = $notice.find('.cf7m-rn__star');
+			var $label   = $notice.find('#cf7m-rn-label');
+			var $starWrap = $notice.find('#cf7m-rn-stars');
+			var nonce    = <?php echo wp_json_encode( $nonce ); ?>;
+			var ajaxUrl  = <?php echo wp_json_encode( admin_url( 'admin-ajax.php' ) ); ?>;
+			var reviewUrl = <?php echo wp_json_encode( $review_url ); ?>;
+			var supportUrl = <?php echo wp_json_encode( $support_url ); ?>;
 
-    private function render_notice()
-    {
-?>
-        <div id="<?php echo esc_attr(self::NOTICE_ID); ?>" class="cf7m-admin-notice cf7m-review-notice notice is-dismissible">
-            <div class="cf7m-notice-inner">
-                <div class="cf7m-notice-icon">
-                    <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="24" cy="24" r="24" fill="#3044D7" fill-opacity="0.1" />
-                        <path d="M24 16l2.472 7.61h8.004l-6.476 4.708 2.472 7.61L24 31.22l-6.472 4.708 2.472-7.61-6.476-4.708h8.004L24 16z" fill="#3044D7" />
-                    </svg>
-                </div>
-                <div class="cf7m-notice-content">
-                    <h3 class="cf7m-notice-title">
-                        <?php esc_html_e('🎉 You\'re creating amazing forms!', 'cf7-styler-for-divi'); ?>
-                    </h3>
-                    <p class="cf7m-notice-description">
-                        <?php
-                        printf(
-                            /* translators: %s: plugin name */
-                            esc_html__('It looks like you\'ve been using %s for a while now. That\'s awesome! If you\'re enjoying it, would you mind sharing the love with a quick 5-star review? It takes just 30 seconds and helps us grow! 💜', 'cf7-styler-for-divi'),
-                            '<strong>' . esc_html__('CF7 Mate', 'cf7-styler-for-divi') . '</strong>'
-                        );
-                        ?>
-                    </p>
-                    <div class="cf7m-notice-actions">
-                        <a href="https://wordpress.org/support/plugin/cf7-styler-for-divi/reviews/" target="_blank" class="cf7m-review-button cf7m-review-button--primary" data-action="review">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor" />
-                            </svg>
-                            <?php esc_html_e('Sure! I\'ll leave a review', 'cf7-styler-for-divi'); ?>
-                        </a>
-                        <button type="button" class="cf7m-review-button cf7m-review-button--secondary" data-action="dismiss">
-                            <?php esc_html_e('Maybe later', 'cf7-styler-for-divi'); ?>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+			function send(action) {
+				return $.post(ajaxUrl, {
+					action: 'cf7m_dismiss_review',
+					nonce:  nonce,
+					mode:   action
+				});
+			}
+			function hideAndForget(action) {
+				$notice.fadeOut(220, function(){ $(this).remove(); });
+				send(action);
+			}
 
-        <style>
-            .cf7m-review-notice {
-                position: relative !important;
-                padding: 0 !important;
-                border: none !important;
-                background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%) !important;
-                border-radius: 12px !important;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-                margin: 16px 20px 16px 0 !important;
-                overflow: hidden !important;
-                border-left: 4px solid #3044D7 !important;
-            }
+			$stars.on('mouseenter', function(){
+				var r = parseInt($(this).data('rating'), 10);
+				$stars.each(function(){ $(this).toggleClass('is-lit', parseInt($(this).data('rating'),10) <= r); });
+			}).on('mouseleave', function(){
+				$stars.removeClass('is-lit');
+			});
 
-            .cf7m-review-notice::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 100%;
-                background: linear-gradient(135deg, rgba(87, 51, 255, 0.03) 0%, transparent 50%);
-                pointer-events: none;
-            }
+			$stars.on('click', function(){
+				var r = parseInt($(this).data('rating'), 10);
+				if ( r >= 4 ) {
+					$label.html('<?php echo esc_js( __( 'Thank you! Your review really helps us out.', 'cf7-styler-for-divi' ) ); ?>');
+					$starWrap.hide();
+					window.open(reviewUrl, '_blank', 'noopener');
+					setTimeout(function(){ hideAndForget('forever'); }, 3000);
+				} else {
+					$label.html('<?php echo esc_js( __( 'Thanks for the feedback! Anything we can fix?', 'cf7-styler-for-divi' ) ); ?> <a href="' + supportUrl + '" target="_blank" rel="noopener" style="color:#3044d7;font-weight:600;text-decoration:none;"><?php echo esc_js( __( 'Contact support →', 'cf7-styler-for-divi' ) ); ?></a>');
+					$starWrap.hide();
+					setTimeout(function(){ hideAndForget('forever'); }, 4500);
+				}
+			});
 
-            .cf7m-review-notice .notice-dismiss {
-                top: 16px !important;
-                right: 16px !important;
-                width: 28px !important;
-                height: 28px !important;
-                border-radius: 6px !important;
-                color: #9ca3af !important;
-                transition: all 0.2s ease !important;
-                z-index: 10 !important;
-            }
+			$notice.on('click', '[data-action="later"]', function(e){ e.preventDefault(); hideAndForget('later'); });
+			$notice.on('click', '[data-action="dismiss"]', function(e){ e.preventDefault(); hideAndForget('forever'); });
+		});
+		</script>
+		<?php
+	}
 
-            .cf7m-review-notice .notice-dismiss:hover {
-                background: rgba(87, 51, 255, 0.1) !important;
-                color: #3044D7 !important;
-            }
+	public function ajax_dismiss() {
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( ! $nonce || ! wp_verify_nonce( $nonce, 'cf7m_dismiss_review' ) ) {
+			wp_send_json_error( [ 'message' => 'Security check failed' ] );
+		}
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( [ 'message' => 'Insufficient permissions' ] );
+		}
 
-            .cf7m-review-notice .notice-dismiss::before {
-                width: 28px !important;
-                height: 28px !important;
-                font-size: 18px !important;
-            }
+		$mode  = isset( $_POST['mode'] ) ? sanitize_key( wp_unslash( $_POST['mode'] ) ) : 'later';
+		$count = (int) get_option( self::COUNT_OPTION, 0 );
 
-            .cf7m-notice-inner {
-                display: flex;
-                gap: 20px;
-                padding: 24px 60px 24px 24px;
-                position: relative;
-                z-index: 2;
-            }
+		if ( 'forever' === $mode ) {
+			update_option( self::COUNT_OPTION, self::MAX_DISMISSALS, false );
+			delete_option( self::NEXT_SHOW_OPTION );
+			wp_send_json_success( [ 'state' => 'forever' ] );
+		}
 
-            .cf7m-notice-icon {
-                flex-shrink: 0;
-                width: 48px;
-                height: 48px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                animation: cf7m-notice-pulse 2s ease-in-out infinite;
-            }
+		// "Remind me later" cadence: 30 days → 90 days → never.
+		$count++;
+		update_option( self::COUNT_OPTION, $count, false );
 
-            @keyframes cf7m-notice-pulse {
+		if ( $count >= self::MAX_DISMISSALS ) {
+			delete_option( self::NEXT_SHOW_OPTION );
+			wp_send_json_success( [ 'state' => 'forever' ] );
+		}
 
-                0%,
-                100% {
-                    transform: scale(1);
-                }
-
-                50% {
-                    transform: scale(1.05);
-                }
-            }
-
-            .cf7m-notice-content {
-                flex: 1;
-                min-width: 0;
-            }
-
-            .cf7m-notice-title {
-                margin: 0 0 8px 0 !important;
-                font-size: 18px !important;
-                font-weight: 600 !important;
-                color: #111827 !important;
-                line-height: 1.4 !important;
-                letter-spacing: -0.02em !important;
-            }
-
-            .cf7m-notice-description {
-                margin: 0 0 16px 0 !important;
-                font-size: 14px !important;
-                color: #4b5563 !important;
-                line-height: 1.6 !important;
-                font-weight: 400 !important;
-            }
-
-            .cf7m-notice-description strong {
-                color: #3044D7;
-                font-weight: 600;
-            }
-
-            .cf7m-notice-actions {
-                display: flex;
-                gap: 12px;
-                flex-wrap: wrap;
-            }
-
-            .cf7m-review-button {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                padding: 10px 20px !important;
-                border-radius: 8px !important;
-                font-weight: 500 !important;
-                font-size: 14px !important;
-                transition: all 0.2s ease !important;
-                cursor: pointer !important;
-                text-decoration: none !important;
-                border: none !important;
-                font-family: inherit !important;
-                line-height: 1.4 !important;
-            }
-
-            .cf7m-review-button--primary {
-                background: linear-gradient(135deg, #3044D7 0%, #2535b0 100%) !important;
-                color: #ffffff !important;
-                box-shadow: 0 2px 8px rgba(48, 68, 215, 0.25) !important;
-            }
-
-            .cf7m-review-button--primary:hover {
-                background: linear-gradient(135deg, #2535b0 0%, #1e2990 100%) !important;
-                color: #ffffff !important;
-                transform: translateY(-2px) !important;
-                box-shadow: 0 4px 12px rgba(48, 68, 215, 0.35) !important;
-            }
-
-            .cf7m-review-button--primary:active {
-                transform: translateY(0) !important;
-                box-shadow: 0 2px 6px rgba(48, 68, 215, 0.3) !important;
-            }
-
-            .cf7m-review-button--secondary {
-                background: transparent !important;
-                color: #6b7280 !important;
-                border: 1px solid #d1d5db !important;
-            }
-
-            .cf7m-review-button--secondary:hover {
-                background: #f3f4f6 !important;
-                color: #374151 !important;
-                border-color: #9ca3af !important;
-            }
-
-            @media (max-width: 768px) {
-                .cf7m-notice-inner {
-                    flex-direction: column;
-                    gap: 16px;
-                    padding: 20px 50px 20px 20px;
-                }
-
-                .cf7m-notice-icon {
-                    width: 40px;
-                    height: 40px;
-                }
-
-                .cf7m-notice-icon svg {
-                    width: 32px;
-                    height: 32px;
-                }
-
-                .cf7m-notice-actions {
-                    flex-direction: column;
-                }
-
-                .cf7m-review-button {
-                    width: 100%;
-                    justify-content: center;
-                }
-
-                .cf7m-review-notice .notice-dismiss {
-                    top: 12px !important;
-                    right: 12px !important;
-                }
-            }
-        </style>
-
-        <script type="text/javascript">
-            jQuery(document).ready(function($) {
-                // Handle review button click
-                $('.cf7m-review-button[data-action="review"]').on('click', function(e) {
-                    // Dismiss the notice when user clicks review
-                    $.ajax({
-                        url: dcs_admin_notice.ajax_url,
-                        type: 'POST',
-                        data: {
-                            action: 'dcs_dismiss_review_notice',
-                            nonce: dcs_admin_notice.nonce
-                        }
-                    });
-                });
-
-                // Handle "Maybe later" button
-                $('.cf7m-review-button[data-action="dismiss"]').on('click', function(e) {
-                    e.preventDefault();
-                    $('#<?php echo esc_js(self::NOTICE_ID); ?>').fadeOut(300, function() {
-                        $(this).remove();
-                    });
-
-                    $.ajax({
-                        url: dcs_admin_notice.ajax_url,
-                        type: 'POST',
-                        data: {
-                            action: 'dcs_dismiss_review_notice',
-                            nonce: dcs_admin_notice.nonce
-                        }
-                    });
-                });
-            });
-        </script>
-<?php
-    }
-
-    public function dismiss_notice()
-    {
-        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
-
-        if (!$nonce || !wp_verify_nonce($nonce, 'dcs_dismiss_notice')) {
-            wp_send_json_error(['message' => 'Security check failed']);
-        }
-
-        if (!current_user_can('manage_options')) {
-            wp_send_json_error(['message' => 'Insufficient permissions']);
-        }
-
-        update_user_meta(get_current_user_id(), self::DISMISSED_OPTION, '1');
-
-        wp_send_json_success();
-    }
+		$defer = ( 1 === $count ) ? self::FIRST_DEFER : self::SECOND_DEFER;
+		update_option( self::NEXT_SHOW_OPTION, time() + $defer, false );
+		wp_send_json_success( [ 'state' => 'snoozed', 'next' => time() + $defer ] );
+	}
 }
