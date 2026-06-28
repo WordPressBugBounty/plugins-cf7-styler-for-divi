@@ -5,7 +5,7 @@ Tags: contact form 7, cf7, form styler, ai form generator, multi-step form
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.0.7
+Stable tag: 3.0.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -181,6 +181,9 @@ Form Entries stores submission data only in your own WordPress database — no t
 
 == Changelog ==
 
+= 3.0.8 =
+* Security: fixed a stored XSS in the Divi 4 CF7 Styler module. The Header Image, Header Title, and Header Text fields are now escaped on output (`esc_url`/`esc_html`), matching the Divi 5, Elementor, and Bricks builds. Previously a user able to edit a module could inject markup that executed when the post was viewed.
+
 = 3.0.7 =
 * Fixed: fatal parse error on PHP 7.4 (`syntax error, unexpected '|'` in includes/rest-api.php). Version 3.0.6 accidentally used PHP 8.0-only syntax; the plugin now runs on PHP 7.4 again as advertised.
 * Fixed: AI Form Generator modal was unstyled and non-functional in the free plugin — its CSS/JS still lived under the Pro asset path, which the free package doesn't ship. The assets now live with the other free features.
@@ -245,6 +248,9 @@ Form Entries stores submission data only in your own WordPress database — no t
 * Improved: Form styling performance and mobile responsiveness.
 
 == Upgrade Notice ==
+
+= 3.0.8 =
+Security release. Fixes a stored XSS in the Divi 4 CF7 Styler module where the Header Image, Title, and Text fields were output without escaping. Update as soon as possible.
 
 = 3.0.7 =
 Fixes a fatal error on PHP 7.4 introduced in 3.0.6. If your site runs PHP 7.4, update immediately (or first if the plugin is currently deactivated).
