@@ -4,7 +4,7 @@ Tags: contact form 7, contact form 7 styler, multi step form, conditional fields
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.1.1
+Stable tag: 4.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,15 +14,11 @@ Style Contact Form 7 forms. Add multi-step forms, conditional logic and a submis
 
 **Style Contact Form 7. Add multi-step forms, conditional logic and a submissions database. 100% free.**
 
-CF7 Mate is a free add-on for Contact Form 7. It makes your forms look good and do more.
+CF7 Mate is a free add-on for Contact Form 7 that makes your forms look good and do more. Every feature is free on unlimited sites: no Pro version, no license key.
 
-Style your forms in Divi, Elementor, Bricks or the block editor. Split long forms into steps. Show fields only when they are needed. Save every submission in WordPress.
+[Website](https://plugpress.io/cf7-mate/) · [Getting started](https://plugpress.io/docs/cf7-mate-getting-started/) · [Docs](https://plugpress.io/docs/) · [Support](https://plugpress.io/support/) · [GitHub](https://github.com/plugpressco/cf7-styler-for-divi)
 
-You still build forms in the Contact Form 7 editor. There is nothing new to learn.
-
-**NEW!** Build forms with ChatGPT or Claude. Connect your AI app with [Saddle](https://saddle.to/), describe the form, and it appears in Contact Form 7.
-
-All features are free on unlimited sites. No Pro version. No license key.
+Style your forms in Divi, Elementor, Bricks or the block editor. Split long forms into steps. Show fields only when they are needed. Save every submission in WordPress. You still build forms in the Contact Form 7 editor, so there is nothing new to learn.
 
 = 🎨 Contact Form 7 styler =
 
@@ -49,7 +45,7 @@ All features are free on unlimited sites. No Pro version. No license key.
 = ✨ AI form builder =
 
 * **AI form generator:** Describe your form in plain words. CF7 Mate writes the form for you. It uses your own OpenAI, Anthropic, Gemini or OpenRouter key.
-* **AI agents:** Let ChatGPT or Claude create and edit forms with [Saddle](https://saddle.to/).
+* **ChatGPT and Claude:** With [Saddle](https://saddle.to/), a free plugin, your AI app can create and edit forms. Install Saddle, [connect your AI app](https://saddle.to/docs/connect-your-ai-app/), turn on the CF7 Mate integration and ask: "Create a quote form with name, email, budget and project details." The app can read, create and edit forms, but never sees responses or AI keys. Read the [CF7 Mate and Saddle guide](https://plugpress.io/docs/cf7-mate-saddle/).
 
 = 🚀 Get started =
 
@@ -57,26 +53,6 @@ All features are free on unlimited sites. No Pro version. No license key.
 2. Go to **Contact > CF7 Mate**. Turn on the features you need.
 3. Edit a form in Contact Form 7. Use the CF7 Mate tag buttons to add fields, steps and conditions. Use the **CF7 Mate** tab for responses, redirects, email routing and scheduling.
 4. Add the form to a page. Use the CF7 Mate module, block, widget or element in your builder, or the CF7 shortcode.
-
-Need help? Read the [getting started guide](https://plugpress.io/docs/cf7-mate-getting-started/) or browse the [docs](https://plugpress.io/docs/).
-
-= 🤖 Build forms with ChatGPT or Claude =
-
-[Saddle](https://saddle.to/) is a free plugin. It connects ChatGPT, Claude and other AI apps to your site. Then you can build forms just by asking.
-
-1. Install [Saddle](https://saddle.to/) and [connect your AI app](https://saddle.to/docs/connect-your-ai-app/).
-2. In Saddle, turn on the CF7 Mate integration. Give the app Edit content access.
-3. Ask for a form. For example: "Create a quote form with name, email, budget and project details."
-
-Good to know:
-
-* The app can find, read, create and edit forms.
-* It cannot see responses or AI keys, and it never sends test submissions.
-* Check each form and its Mail tab before you use it.
-* It needs WordPress 6.9 or later.
-* CF7 Mate never installs or connects Saddle for you. The AI app uses its own account, not your CF7 Mate AI key.
-
-Read more in the [CF7 Mate and Saddle guide](https://plugpress.io/docs/cf7-mate-saddle/).
 
 = ⚙️ Settings =
 
@@ -110,7 +86,7 @@ The AI form generator only contacts a provider after an admin adds a key and ask
 
 Full source and build files are on [GitHub](https://github.com/plugpressco/cf7-styler-for-divi). To build, run `npm ci` and then `npm run build`.
 
-[Docs](https://plugpress.io/docs/) · [Support](https://plugpress.io/support/) · [Saddle](https://saddle.to/)
+Before your next update, take a restore point with [Snapback](https://snapbackwp.com/?utm_source=cf7-styler-for-divi&utm_medium=readme&utm_campaign=bf26), a backup and recovery plugin from the same team.
 
 == Installation ==
 
@@ -192,7 +168,20 @@ Ask on the WordPress.org support forum or [PlugPress support](https://plugpress.
 6. Conditional fields that respond to visitor answers.
 7. Feature toggles in the CF7 Mate dashboard.
 
+== External services ==
+
+This plugin can send data to PlugPress Console (console.plugpress.io), run by PlugPress, the plugin's author. It sends nothing until an administrator clicks "Allow" on the opt-in card or "Send and deactivate" in the deactivation form. "No thanks" and "Skip" send nothing.
+
+* Allow: the site address, title, WordPress, PHP and theme versions, the list of installed plugins, and the name and email of the administrator who clicked. It repeats weekly while allowed and can be stopped under the plugin on the Plugins screen.
+* Send and deactivate: the reason picked, an optional comment and an optional reply email, with this plugin's version.
+
+Privacy policy: https://plugpress.io/privacy/
+
 == Changelog ==
+
+= 4.1.2 =
+* New: a PlugPress page that lists the PlugPress plugins on your site, with help links.
+* New: an optional switch to share basic site info, and an optional reason form when you deactivate the plugin. Nothing is sent unless an administrator allows it.
 
 = 4.1.1 =
 * Security: text a visitor types into a form can no longer run shortcodes or add markup when the form shows errors after a failed submission. Reported through Patchstack.

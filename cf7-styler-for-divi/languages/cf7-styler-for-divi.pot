@@ -2,21 +2,21 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: CF7 Mate 4.1.1\n"
+"Project-Id-Version: CF7 Mate 4.1.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cf7-mate-pro\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-29T22:34:02+00:00\n"
+"POT-Creation-Date: 2026-11-24T14:23:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: cf7-styler-for-divi\n"
 
 #. Plugin Name of the plugin
 #: cf7-styler.php
-#: includes/admin/admin.php:97
+#: includes/admin/admin.php:185
 #: includes/admin/form-editor.php:23
 msgid "CF7 Mate"
 msgstr ""
@@ -45,11 +45,17 @@ msgstr ""
 msgid "CF7 Mate now includes all features for free. Deactivate the legacy CF7 Mate Pro plugin, then activate CF7 Mate to complete the switch. Your forms and saved responses are preserved."
 msgstr ""
 
-#: includes/admin/admin.php:75
+#: includes/admin/admin.php:140
+#: src/admin/components/Snapback.jsx:263
+#: src/admin/components/Snapback.jsx:312
+msgid "Get Snapback"
+msgstr ""
+
+#: includes/admin/admin.php:163
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/admin.php:100
+#: includes/admin/admin.php:188
 #: includes/pro/features/entries/editor-panel.php:38
 #: src/admin/components/Header.js:23
 #: src/admin/pages/ResponsesPage.js:323
@@ -58,14 +64,14 @@ msgstr ""
 msgid "Responses"
 msgstr ""
 
-#: includes/admin/admin.php:101
+#: includes/admin/admin.php:189
 #: src/admin/AnalyticsApp.js:36
 #: src/admin/components/Header.js:24
 #: src/admin/pages/AnalyticsPage.js:45
 msgid "Analytics"
 msgstr ""
 
-#: includes/admin/admin.php:102
+#: includes/admin/admin.php:190
 #: src/admin/components/Header.js:26
 #: src/admin/pages/SaddlePage.js:28
 msgid "Saddle"
@@ -327,6 +333,177 @@ msgstr ""
 
 #: includes/functions.php:39
 msgid "Select a Contact form"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:134
+msgid "Thanks for helping"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:134
+msgid "You are in"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:135
+msgid "Check your inbox to confirm your email."
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:136
+msgid "Stop any time under the plugin on the Plugins screen."
+msgstr ""
+
+#. translators: %s: brand name, such as Saddle.
+#: includes/insight/class-plugpress-insight.php:148
+#, php-format
+msgid "Get better support for %s"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:150
+msgid "Share your name, email and basic site info with PlugPress."
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:151
+msgid "What is shared"
+msgstr ""
+
+#. translators: %s: brand name, such as Saddle.
+#: includes/insight/class-plugpress-insight.php:154
+#: includes/insight/class-plugpress-insight.php:162
+#, php-format
+msgid "%s news"
+msgstr ""
+
+#. translators: %s: brand name, such as Saddle.
+#: includes/insight/class-plugpress-insight.php:155
+msgid "Features, tips and fixes, now and then."
+msgstr ""
+
+#. translators: %s: brand name, such as Saddle.
+#: includes/insight/class-plugpress-insight.php:164
+#, php-format
+msgid "Email for %s news"
+msgstr ""
+
+#. translators: %s: brand name, such as Saddle.
+#: includes/insight/class-plugpress-insight.php:165
+#: includes/insight/class-plugpress-insight.php:170
+msgid "No thanks"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:166
+msgid "Allow"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:168
+msgid "Email"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:169
+msgid "Subscribe"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:179
+msgid "Your profile"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:180
+msgid "Your site"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:180
+msgid "Address, title, language and timezone"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:181
+msgid "Versions"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:181
+msgid "WordPress, PHP, your theme and plugins"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:182
+msgid "No posts, no visitor data. Sent now, then once a week only when something changed. Stop any time under the plugin on the Plugins screen."
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:205
+msgid "Something broke"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:205
+msgid "What broke?"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:206
+msgid "Hard to use"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:206
+msgid "Where did you get stuck?"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:207
+msgid "Missing a feature"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:207
+msgid "What did you need?"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:208
+msgid "Found a better plugin"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:208
+msgid "Which one?"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:209
+msgid "Just for now"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:210
+msgid "Something else"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:210
+msgid "Tell us in a few words"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:215
+msgid "Close, and keep the plugin on"
+msgstr ""
+
+#. translators: %s: plugin name.
+#: includes/insight/class-plugpress-insight.php:218
+#, php-format
+msgid "Why are you turning off %s?"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:228
+msgid "(optional)"
+msgstr ""
+
+#. translators: %s: the admin's email address.
+#: includes/insight/class-plugpress-insight.php:235
+#, php-format
+msgid "Email me back at %s"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:239
+#: src/admin/components/SetupCard.js:174
+msgid "Skip"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:240
+msgid "Send and deactivate"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:284
+msgid "Sharing stopped"
+msgstr ""
+
+#: includes/insight/class-plugpress-insight.php:284
+msgid "Stop sharing site info"
 msgstr ""
 
 #: includes/lite/builders/bricks/bricks-element.php:21
@@ -1738,6 +1915,7 @@ msgstr ""
 
 #: includes/notices/review.php:134
 #: src/admin/components/FeaturesSection.js:50
+#: src/admin/components/Snapback.jsx:207
 msgid "Dismiss"
 msgstr ""
 
@@ -2436,7 +2614,7 @@ msgid "Changes save automatically."
 msgstr ""
 
 #: src/admin/components/Header.js:25
-#: src/admin/pages/SettingsPage.js:24
+#: src/admin/pages/SettingsPage.js:25
 msgid "Tools"
 msgstr ""
 
@@ -2538,10 +2716,6 @@ msgstr ""
 msgid "Saddle Analytics"
 msgstr ""
 
-#: src/admin/components/SetupCard.js:174
-msgid "Skip"
-msgstr ""
-
 #: src/admin/components/SetupCard.js:175
 msgid "Continue"
 msgstr ""
@@ -2553,6 +2727,179 @@ msgstr ""
 
 #: src/admin/components/SetupCard.js:180
 msgid "Finish"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:153
+msgid "Half price until Dec 31, applied at checkout."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:156
+#: src/admin/components/Snapback.jsx:304
+msgid "Pay once. No yearly bill."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:161
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:188
+msgid "Save your site first, before it goes down"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:190
+msgid "When an update breaks your site and WordPress shows \"There has been a critical error\", Snapback's recovery page still opens and puts it back."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:193
+msgid "Backups"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:193
+msgid "Daily or weekly, on their own"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:194
+msgid "Updates"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:194
+msgid "A restore point before plugin updates"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:195
+msgid "Recovery"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:195
+msgid "Works when wp-admin is down"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:199
+msgid "See how it works"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:217
+msgid "Recovery page"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:217
+msgid "Bring your site back from a page with its own address. It runs without WordPress, so it opens even when wp-admin shows a critical error."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:218
+msgid "Restore points"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:218
+msgid "Save your site before a risky change. If it goes wrong, pick a restore point and press Restore."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:219
+msgid "Safe updates"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:219
+msgid "Update plugins with a way back. If an update breaks your home page, the old version goes back on its own."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:220
+msgid "Scheduled backups"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:220
+msgid "Back up your files and database daily or weekly. Each backup is checked."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:221
+msgid "Offsite copies"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:221
+msgid "Keep a second copy off your server, in cloud storage you own or on your computer."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:222
+msgid "AI agents"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:222
+msgid "Let your AI agent save a restore point before it changes anything. A restore waits for your approval."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:227
+msgid "How is it different from other backup plugins?"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:229
+msgid "It backs up your site the way they do: before updates, on a schedule, and to storage you own. The difference is the restore. It runs from a recovery page that works without WordPress, so a critical error can't lock you out of your own backups."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:230
+msgid "And you pay once, with no cloud account."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:234
+msgid "Does recovery work without wp-admin?"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:235
+msgid "Yes. The recovery page doesn't load WordPress, so a critical error in a plugin or theme doesn't lock you out of it. It has its own sign-in with a recovery key, and it keeps working even if the Snapback plugin folder is deleted. It needs hosting that can still run PHP, so it can't help when the server itself is down."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:238
+msgid "Does it replace offsite backups?"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:240
+msgid "It can be your offsite backup. Connect an S3-compatible bucket in your own account and Snapback sends copies of your backups there, encrypted on your server before they leave and checked after upload."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:241
+msgid "Without an offsite copy, your backups stay on the same server as your site. If the server or the hosting account is lost, they are lost with it."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:245
+msgid "Is it a subscription?"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:246
+msgid "No. You pay once. A licence covers 1, 5 or 25 sites, and every plan includes every feature. Refunds within 14 days."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:257
+msgid "Your site broke? Get it back."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:259
+msgid "Snapback is a backup and recovery plugin for WordPress. Its recovery page opens even when wp-admin shows \"There has been a critical error\", and puts your site back."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:268
+msgid "From PlugPress, the team behind Divi Torque and Divi Carousel."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:275
+msgid "Backup and recovery, built for the day WordPress breaks"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:276
+msgid "Six features with one job: keep a good copy of your site and put it back when it breaks."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:289
+msgid "Questions people ask first"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:304
+msgid "Half price until Dec 31"
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:307
+msgid "is applied at checkout. Pay once, refunds within 14 days."
+msgstr ""
+
+#: src/admin/components/Snapback.jsx:308
+msgid "A licence covers 1, 5 or 25 sites. Refunds within 14 days."
 msgstr ""
 
 #: src/admin/components/ui/Feedback.js:54

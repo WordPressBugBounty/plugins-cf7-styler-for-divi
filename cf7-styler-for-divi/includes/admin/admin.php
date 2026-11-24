@@ -16,6 +16,12 @@ class Admin
     const SETTINGS_PAGE_SLUG  = 'cf7-mate';
     const SADDLE_PAGE_SLUG    = 'cf7-mate-saddle';
 
+    /** Per-user flag: the Snapback card on Features was hidden. */
+    const SNAPBACK_HIDDEN_META = 'cf7m_snapback_card_hidden';
+
+    /** The Snapback half-price line shows until 2027-01-01T07:59:59Z (Dec 31, 23:59:59 in California). */
+    const SNAPBACK_OFFER_ENDS = 1798790399;
+
     /** Contact Form 7's top-level menu: `wpcf7-dashboard` since CF7 6.2, `wpcf7` before. */
     const MENU_PARENTS = ['wpcf7-dashboard', 'wpcf7'];
 
@@ -40,6 +46,7 @@ class Admin
     {
         add_action('admin_menu', [$this, 'add_menu'], 20);
         add_action('admin_init', [$this, 'dismiss_migration_notice']);
+        add_action('wp_ajax_cf7m_hide_snapback', [$this, 'hide_snapback_card']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_app'], 20);
         add_action('admin_head', [$this, 'hide_tab_pages']);
         add_filter('parent_file', [$this, 'highlight_parent']);
@@ -65,6 +72,87 @@ class Admin
             'show'        => $show,
             'dismiss_url' => $show ? wp_nonce_url(admin_url('admin.php?page=' . self::SETTINGS_PAGE_SLUG . '&cf7m_dismiss_free_notice=1'), 'cf7m_free_notice') : '',
         ];
+    }
+
+    /**
+     * The Snapback card below Features (SnapbackCard.js): PlugPress's backup and
+     * recovery plugin. Only on this screen, never an admin notice, and nothing
+     * here calls a remote server; the button is the only link out.
+     */
+    private function snapback_card()
+    {
+        return [
+            'show'    => !self::snapback_installed() && !get_user_meta(get_current_user_id(), self::SNAPBACK_HIDDEN_META, true),
+            'offer'   => time() <= self::SNAPBACK_OFFER_ENDS,
+            'url'     => 'https://snapbackwp.com/?utm_source=cf7-styler-for-divi&utm_medium=plugin-card&utm_campaign=bf26',
+            'pageUrl' => 'https://snapbackwp.com/?utm_source=cf7-styler-for-divi&utm_medium=plugin-page&utm_campaign=bf26',
+            'nonce'   => wp_create_nonce('cf7m_snapback_card'),
+        ];
+    }
+
+    /**
+     * Snapback is installed, active or not. Then CF7 Mate shows no Snapback
+     * banner and no "Get Snapback" page. Read from the plugin headers, so a
+     * renamed folder still counts.
+     */
+    public static function snapback_installed()
+    {
+        static $installed = null;
+
+        if (null === $installed) {
+            $installed = defined('SNAPBACK_PRO_FILE');
+
+            if (!$installed) {
+                if (!function_exists('get_plugins')) {
+                    require_once ABSPATH . 'wp-admin/includes/plugin.php';
+                }
+
+                foreach (get_plugins() as $plugin) {
+                    if (isset($plugin['TextDomain']) && 'snapback-pro' === $plugin['TextDomain']) {
+                        $installed = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $installed;
+    }
+
+    /**
+     * "Get Snapback" under the same menu as CF7 Mate: a page about Snapback
+     * (SnapbackApp.js). Only while Snapback is not installed, and only once
+     * per site: the first PlugPress plugin to add it wins.
+     */
+    private function register_snapback_page()
+    {
+        if (self::snapback_installed()) {
+            return;
+        }
+
+        // One "Get Snapback" page per site, whichever PlugPress plugin adds
+        // it first (every plugin checks the same constant).
+        if (defined('PLUGPRESS_GET_SNAPBACK_PAGE')) {
+            return;
+        }
+        define('PLUGPRESS_GET_SNAPBACK_PAGE', 'cf7-mate-get-snapback');
+
+        $this->register(__('Get Snapback', 'cf7-styler-for-divi'), __('Get Snapback', 'cf7-styler-for-divi'), 'cf7-mate-get-snapback', 'snapback', 'snapback');
+    }
+
+    /** Hides the Snapback card for the current user. */
+    public function hide_snapback_card()
+    {
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+        if (!$nonce || !wp_verify_nonce($nonce, 'cf7m_snapback_card')) {
+            wp_send_json_error(['message' => 'Security check failed'], 403);
+        }
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => 'Insufficient permissions'], 403);
+        }
+
+        update_user_meta(get_current_user_id(), self::SNAPBACK_HIDDEN_META, 1);
+        wp_send_json_success();
     }
 
     public function add_plugin_action_links($links)
@@ -100,6 +188,7 @@ class Admin
         $this->register(__('Responses', 'cf7-styler-for-divi'), '', self::RESPONSES_PAGE_SLUG, 'responses', 'responses');
         $this->register(__('Analytics', 'cf7-styler-for-divi'), '', self::ANALYTICS_PAGE_SLUG, 'analytics', 'analytics');
         $this->register(__('Saddle', 'cf7-styler-for-divi'), '', self::SADDLE_PAGE_SLUG, 'settings', 'saddle');
+        $this->register_snapback_page();
     }
 
     /**
@@ -197,6 +286,7 @@ class Admin
                 'nonce' => wp_create_nonce('cf7m_onboarding_nonce'),
             ],
             'free_notice'      => $this->free_notice(),
+            'snapback'         => $this->snapback_card(),
             'version'          => defined('CF7M_VERSION') ? CF7M_VERSION : '3.0.0',
             'cf7_admin_url'    => admin_url('admin.php?page=wpcf7'),
             'dash_url'         => admin_url('admin.php?page=' . self::SETTINGS_PAGE_SLUG),
